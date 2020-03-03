@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DPFPVerNET</name>
+    </assembly>
+    <members>
+        <member name="T:DPFP.Verification.Verification">
+            <summary>
+            Performs the system function of fingerprint verification, which is a one-to-one comparison of a fingerprint
+            feature set with a fingerprint template produced at enrollment that returns a decision of match or non-match.
+            </summary>
+        </member>
+        <member name="F:DPFP.Verification.Verification.ProbabilityNotSet">
+            <summary>
+            Use this value to specify the default FAR threshold 
+            </summary>
+        </member>
+        <member name="M:DPFP.Verification.Verification.Verify(DPFP.FeatureSet,DPFP.Template)">
+            <summary>
+            Performs fingerprint verification and returns the comparison decision based on the default FAR threshold
+            </summary>
+            <param name="FeatureSet">A DPFP.FeatureSet object</param>
+            <param name="Template">A DPFP.Template object</param>
+            <returns>Verification result object</returns>
+        </member>
+        <member name="M:DPFP.Verification.Verification.Verify(DPFP.FeatureSet,DPFP.Template,System.Int32)">
+            <summary>
+            Performs fingerprint verification and returns the comparison decision based on the specified FAR threshold
+            </summary>
+            <param name="FeatureSet">A DPFP.FeatureSet object</param>
+            <param name="Template">A DPFP.Template object</param>
+            <param name="FARRequested">False Accept probability threshold or ProbabilityNotSet to use the default threshold</param>
+            <returns>Verification result object</returns>
+        </member>
+        <member name="M:DPFP.Verification.Verification.#ctor">
+            <summary>
+            Initializes a new instance of the Verification class for comparing a fingerprint feature set with a
+            fingerprint template using the default value of the false accept rate (FAR)
+            </summary>
+        </member>
+        <member name="M:DPFP.Verification.Verification.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the Verification class for comparing a fingerprint feature set with a
+            fingerprint template and assigns the value of the FAR
+            </summary>
+            <param name="FARRequested">Value of the requested FAR</param>
+        </member>
+        <member name="M:DPFP.Verification.Verification.Verify(DPFP.FeatureSet,DPFP.Template,DPFP.Verification.Verification.Result@)">
+            <summary>
+            Performs the system function of fingerprint verification and specifies a comparison decision based on the FAR
+            set by the FARRequested property
+            </summary>
+            <param name="FeatureSet">A DPFP.FeatureSet object</param>
+            <param name="Template">A DPFP.Template object</param>
+            <param name="Result">A DPFP.Verification.Result object</param>
+        </member>
+        <member name="P:DPFP.Verification.Verification.FARRequested">
+            <summary>
+            Returns or assigns the requested false accept rate (FAR)
+            </summary>
+        </member>
+        <member name="T:DPFP.Verification.Verification.Result">
+            <summary>
+            Represents the results of a fingerprint verification operation.
+            </summary>
+        </member>
+        <member name="M:DPFP.Verification.Verification.Result.#ctor">
+            <summary>
+            Default c-tor
+            </summary>
+        </member>
+        <member name="P:DPFP.Verification.Verification.Result.FARAchieved">
+            <summary>
+            Returns or assigns the value of the achieved FAR for a comparison operation.
+            </summary>
+        </member>
+        <member name="P:DPFP.Verification.Verification.Result.Verified">
+            <summary>
+            Returns or assigns the comparison decision, which indicates whether the comparison of a fingerprint feature
+            set and a fingerprint template resulted in a decision of match or non-match. This decision is based on the value
+            of the FARRequested property
+            </summary>
+        </member>
+        <member name="T:DPFP.DPFPVerificationResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPVerificationResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPVerificationResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPVerificationResources.DPFPErrorMessage_FailedContext">
+            <summary>
+              Looks up a localized string similar to Failed to create a context.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPVerificationResources.DPFPErrorMessage_FailedInit">
+            <summary>
+              Looks up a localized string similar to Failed to initialize low level API.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPVerificationResources.DPFPErrorMessage_FailedVerification">
+            <summary>
+              Looks up a localized string similar to Verification Failure.
+            </summary>
+        </member>
+    </members>
+</doc>

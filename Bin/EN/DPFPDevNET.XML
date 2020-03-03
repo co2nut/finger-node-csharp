@@ -1,0 +1,503 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DPFPDevNET</name>
+    </assembly>
+    <members>
+        <member name="T:DPFP.Capture.EventHandler">
+            <summary>
+            Defines the fingerprint sample capture operation events
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.EventHandler.OnComplete(System.Object,System.String,DPFP.Sample)">
+            <summary>
+            Fires when a fingerprint sample is successfully captured by a fingerprint reader
+            </summary>
+            <param name="Capture">Capture component</param>
+            <param name="ReaderSerialNumber">String that contains the device ID of the fingerprint reader from which the fingerprint sample was captured</param>
+            <param name="Sample">Retrieved fingerprint sample</param>
+        </member>
+        <member name="M:DPFP.Capture.EventHandler.OnFingerGone(System.Object,System.String)">
+            <summary>
+            Fires when a user removes a finger from a fingerprint reader
+            </summary>
+            <param name="Capture">Capture component</param>
+            <param name="ReaderSerialNumber">String that contains the device ID of the fingerprint reader from which the fingerprint sample was captured</param>
+        </member>
+        <member name="M:DPFP.Capture.EventHandler.OnFingerTouch(System.Object,System.String)">
+            <summary>
+            Fires when a user touches a fingerprint reader
+            </summary>
+            <param name="Capture">Capture component</param>
+            <param name="ReaderSerialNumber">String that contains the device ID of the fingerprint reader from which the fingerprint sample was captured</param>
+        </member>
+        <member name="M:DPFP.Capture.EventHandler.OnReaderConnect(System.Object,System.String)">
+            <summary>
+            Fires when a fingerprint reader is attached to a system
+            </summary>
+            <param name="Capture">Capture component</param>
+            <param name="ReaderSerialNumber">String that contains the device ID of the fingerprint reader from which the fingerprint sample was captured</param>
+        </member>
+        <member name="M:DPFP.Capture.EventHandler.OnReaderDisconnect(System.Object,System.String)">
+            <summary>
+            Fires when a fingerprint reader is disconnected from a system
+            </summary>
+            <param name="Capture">Capture component</param>
+            <param name="ReaderSerialNumber">String that contains the device ID of the fingerprint reader from which the fingerprint sample was captured</param>
+        </member>
+        <member name="M:DPFP.Capture.EventHandler.OnSampleQuality(System.Object,System.String,DPFP.Capture.CaptureFeedback)">
+            <summary>
+            Fires when the quality of a fingerprint sample is verified
+            </summary>
+            <param name="Capture">Capture component</param>
+            <param name="ReaderSerialNumber">String that contains the device ID of the fingerprint reader from which the fingerprint sample was captured</param>
+            <param name="CaptureFeedback">Capture feedback</param>
+        </member>
+        <member name="T:DPFP.Capture.Priority">
+            <summary>
+            Defines the priority of a fingerprint sample capture operation performed by a fingerprint reader
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.Priority.Low">
+            <summary>
+            Low priority. An application uses this priority to acquire events from the fingerprint
+            reader only if there are no subscribers with high or normal priority. Only one
+            subscriber with this priority is allowed.
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.Priority.Normal">
+            <summary>
+            Normal priority. An application uses this priority to acquire events from the fingerprint
+            reader only if the operation runs in a foreground process. Multiple subscribers with
+            this priority are allowed.
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.Priority.High">
+            <summary>
+            High priority. A subscriber uses this priority to acquire events from the fingerprint
+            reader exclusively. Only one subscriber with this priority is allowed.
+            </summary>
+        </member>
+        <member name="T:DPFP.Capture.Capture">
+            <summary>
+            Captures a fingerprint sample from a particular fingerprint reader or from all of 
+            the fingerprint readers connected to a system
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.Capture.DPFPInit">
+            Platform Invoke Definitions
+        </member>
+        <member name="M:DPFP.Capture.Capture.#ctor(System.String,DPFP.Capture.Priority)">
+            <summary>
+            Initializes a new instance of the Capture class for capturing a fingerprint sample from a particular
+            fingerprint reader using its serial number and specifies any valid value for the priority of the capture operation
+            </summary>
+            <param name="ReaderSerialNumber">Fingerprint reader serial number</param>
+            <param name="CapturePriority">Capture priority</param>
+        </member>
+        <member name="M:DPFP.Capture.Capture.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the Capture class for capturing a fingerprint sample from a particular
+            fingerprint reader using its serial number and assigns Normal priority to the capture operation.
+            </summary>
+            <param name="ReaderSerialNumber">Fingerprint reader serial number</param>
+        </member>
+        <member name="M:DPFP.Capture.Capture.#ctor(DPFP.Capture.Priority)">
+            <summary>
+            Initializes a new instance of the Capture class for capturing a fingerprint sample from all of the fingerprint
+            readers connected to a system and specifies any valid value for the priority of the capture operation
+            </summary>
+            <param name="CapturePriority">Capture priority</param>
+        </member>
+        <member name="M:DPFP.Capture.Capture.#ctor">
+            <summary>
+            Initializes a new instance of the Capture class for capturing a fingerprint sample from any of the fingerprint
+            readers connected to a system and assigns Normal priority to the capture operation.
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.Capture.StartCapture">
+            <summary>
+            Begins capturing a fingerprint sample from a fingerprint reader. A call to this method is asynchronous and returns immediately. 
+            Every call to the StartCapture() method must be paired with a call to the StopCapture() method.
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.Capture.StopCapture">
+            <summary>
+            Stops the fingerprint sample capture operation started with a call to the StartCapture() method
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.Capture.Dispose">
+            <summary>
+            Inherited from IDisposable
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.Capture.Dispose(System.Boolean)">
+            <summary>
+            Implementation of Disposing pattern
+            Call Dispose(true) from your Dispose() method and finalizer
+            </summary>
+            <param name="disposing">Set to true when calling from Dispose() and false when calling from the finalizer</param>
+        </member>
+        <member name="M:DPFP.Capture.Capture.Finalize">
+            <summary>
+            Terminates Capture
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.Capture.EventHandler">
+            <summary>
+            Loads a fingerprint sample capture operation event handler. Set this property to null to clear all registered event handlers
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.Capture.ReaderSerialNumber">
+            <summary>
+            Returns the serial number of a fingerprint reader that captures a fingerprint sample
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.Capture.Priority">
+            <summary>
+            Returns a value that specifies the priority of a fingerprint sample capture operation
+            </summary>
+        </member>
+        <member name="T:DPFP.DPFPCaptureResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_BadEventHandling">
+            <summary>
+              Looks up a localized string similar to Event Handler has generated an Exception.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_FailedDeviceEnumeration">
+            <summary>
+              Looks up a localized string similar to Failed to enumerate readers.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_FailedInit">
+            <summary>
+              Looks up a localized string similar to Failed to initialize.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_FailedtoCreateAcquisition">
+            <summary>
+              Looks up a localized string similar to Failed to create acquisition.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_FailedtoExportToAnsi">
+            <summary>
+              Looks up a localized string similar to Failed to export ANSI 381 image.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_FailedtoGetImage">
+            <summary>
+              Looks up a localized string similar to Failed to generate bitmap image.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_FailedtoStartAcquisition">
+            <summary>
+              Looks up a localized string similar to Failed to start acquisition.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_InvalidReaderIndex">
+            <summary>
+              Looks up a localized string similar to Invalid index or serial number.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPCaptureResources.DPFPErrorMessage_UnknownDevice">
+            <summary>
+              Looks up a localized string similar to Failed to access the reader.
+            </summary>
+        </member>
+        <member name="T:DPFP.Capture.ReaderSerialNumberType">
+            <summary>
+            Defines whether a fingerprint reader serial number persists after reboot
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderSerialNumberType.Persistent">
+            <summary>
+            A persistent serial number provided by the hardware
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderSerialNumberType.Volatile">
+            <summary>
+            A volatile serial number provided by the software
+            </summary>
+        </member>
+        <member name="T:DPFP.Capture.ReaderImpressionType">
+            <summary>
+            Defines the modality that a fingerprint reader uses to capture fingerprint samples
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderImpressionType.Unknown">
+            <summary>
+            A fingerprint reader for which the modality is not known
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderImpressionType.Swipe">
+            <summary>
+            A swipe fingerprint reader
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderImpressionType.Area">
+            <summary>
+            An area (touch) sensor fingerprint reader
+            </summary>
+        </member>
+        <member name="T:DPFP.Capture.ReaderTechnology">
+            <summary>
+            Defines the fingerprint reader technology
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderTechnology.Unknown">
+            <summary>
+            A fingerprint reader for which the technology is not known
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderTechnology.Optical">
+            <summary>
+            An optical fingerprint reader
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderTechnology.Capacitive">
+            <summary>
+            A capacitive fingerprint reader
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderTechnology.Thermal">
+            <summary>
+            A thermal fingerprint reader
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.ReaderTechnology.Pressure">
+            <summary>
+            A pressure fingerprint reader
+            </summary>
+        </member>
+        <member name="T:DPFP.Capture.ReaderVersion">
+            <summary>
+            Represents information about the fingerprint reader version
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.ReaderVersion.#ctor(System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Initializes a new instance of the ReaderVersion class for providing the structure of the fingerprint reader version number
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.ReaderVersion.ToString">
+            <summary>
+            Converts ReaderVersion into its string representation
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.ReaderVersion.Build">
+            <summary>
+            Build number
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.ReaderVersion.Major">
+            <summary>
+            Major version
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.ReaderVersion.Minor">
+            <summary>
+            Minor version
+            </summary>
+        </member>
+        <member name="T:DPFP.Capture.ReaderDescription">
+            <summary>
+            Provides information about a particular fingerprint reader, such as its technology or serial number
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.ReaderDescription.#ctor(System.Guid)">
+            <summary>
+            Initializes a new instance of the ReaderDescription class using a fingerprint reader’s device GUID
+            </summary>
+            <param name="DeviceGUID">Fingerprint reader device GUID</param>
+        </member>
+        <member name="M:DPFP.Capture.ReaderDescription.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the ReaderDescription class using a fingerprint reader’s serial number
+            </summary>
+            <param name="ReaderSerialNumber">Fingerprint reader serial number</param>
+        </member>
+        <member name="M:DPFP.Capture.ReaderDescription.Finalize">
+            <summary>
+            Terminates ReaderDescription
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.FirmwareVersion">
+            <summary>
+            Returns the firmware revision number of a fingerprint reader
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.HardwareVersion">
+            <summary>
+            Returns the hardware revision number of a fingerprint reader
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.Language">
+            <summary>
+            Returns the fingerprint reader language
+            </summary>            
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.ImpressionType">
+            <summary>
+            Returns a value that specifies the fingerprint reader impression type, for example, swipe reader or touch (area) reader
+            </summary>            
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.ProductName">
+            <summary>
+            Returns the product name of a fingerprint reader, for example, “U.are.U.”
+            </summary>            
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.SerialNumber">
+            <summary>
+            Returns the serial number of a fingerprint reader
+            </summary>            
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.SerialNumberType">
+            <summary>
+            Returns a value that specifies the type of fingerprint reader serial number
+            </summary>            
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.Technology">
+            <summary>
+            Returns a value that specifies the fingerprint reader technology
+            </summary>            
+        </member>
+        <member name="P:DPFP.Capture.ReaderDescription.Vendor">
+            <summary>
+            Returns the vendor name for a fingerprint reader, for example, “DigitalPersona, Inc.”
+            </summary>            
+        </member>
+        <member name="T:DPFP.Capture.ReadersCollection">
+            <summary>
+            Provides information about all of the fingerprint readers connected to a system
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.ReadersCollection.#ctor">
+            <summary>
+            Initializes a new instance of the ReadersCollection class for enumerating all 
+            of the fingerprint readers connected to a system
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.ReadersCollection.Finalize">
+            <summary>
+            Terminates ReadersCollection
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.ReadersCollection.Refresh">
+            <summary>
+            Clears and re-enumerates a ReadersCollection object
+            </summary>
+        </member>
+        <member name="P:DPFP.Capture.ReadersCollection.Item(System.Guid)">
+            <summary>
+            Returns a specific ReaderDescription object using its device GUID
+            </summary>
+            <param name="ReaderSerialNumber">Fingerprint reader device GUID</param>
+            <returns>Reader description</returns>
+        </member>
+        <member name="P:DPFP.Capture.ReadersCollection.Item(System.Int32)">
+            <summary>
+            Returns a specific fingerprint reader using its index
+            </summary>
+            <param name="Index">Fingerprint reader index</param>
+            <returns>Reader description</returns>
+        </member>
+        <member name="P:DPFP.Capture.ReadersCollection.Item(System.String)">
+            <summary>
+            Returns a specific fingerprint reader using its serial number
+            </summary>
+            <param name="ReaderSerialNumber">Fingerprint reader serial number</param>
+            <returns>Reader description</returns>
+        </member>
+        <member name="T:DPFP.Capture.SampleConversion">
+            <summary>
+            Provides methods for converting a fingerprint sample to an image in either bitmap image file format or ANSI 381 format
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_ALREADY_INITIALIZED">
+            no problem
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_INVALIDPARAM">
+            The fingerprint feature extraction module or the fingerprint 
+            comparison module is not initialized.                                                     
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_NOTIMPLEMENTED">
+            One or more parameters are not valid.
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_IO">
+            The called function was not implemented.
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_NOMEMORY">
+            A generic I/O file error occurred.
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_INTERNAL">
+            here is not enough memory to perform the action. 
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_BADINISETTING">
+            An unknown internal error occurred.
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_UNKNOWNDEVICE">
+            Initialization settings are corrupted.
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_INVALIDBUFFER">
+            The requested device is not known.
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_FEATLENTOOSHORT">
+            A buffer is not valid. 
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_INVALIDCONTEXT">
+            The specified fingerprint feature set or fingerprint template
+            buffer size is too small. 
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_INVALIDFTRSTYPE">
+            The given context is not valid. 
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_FTRSINVALID">
+            The feature set purpose is not valid.
+        </member>
+        <member name="F:DPFP.Capture.SampleConversion.RC_UNKNOWNEXCEPT">
+            Decrypted fingerprint features are invalid.  Decryption may have failed.
+        </member>
+        <member name="M:DPFP.Capture.SampleConversion.DPFPInit">
+            An unknown exception occurred. 
+        </member>
+        <member name="M:DPFP.Capture.SampleConversion.#ctor">
+            <summary>
+            Initializes a new instance of the SampleConversion class for converting a fingerprint sample to an image
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.SampleConversion.Finalize">
+            <summary>
+            Terminates SampleConversion
+            </summary>
+        </member>
+        <member name="M:DPFP.Capture.SampleConversion.ConvertToANSI381(DPFP.Sample,System.Byte[]@)">
+            <summary>
+            Converts a fingerprint sample to an image in ANSI 381 format
+            </summary>
+            <param name="Sample">Fingerprint sample</param>
+            <param name="ANSI">Array of bytes that receives and contains an image in ANSI 381 format</param>
+        </member>
+        <member name="M:DPFP.Capture.SampleConversion.ConvertToPicture(DPFP.Sample,System.Drawing.Bitmap@)">
+            <summary>
+            Converts a fingerprint sample to bitmap image file format
+            </summary>
+            <param name="Sample">Fingerprint sample</param>
+            <param name="Bitmap">Receives and contains an image in bitmap file format and scales the image to a specified bitmap size, if provided</param>
+        </member>
+    </members>
+</doc>

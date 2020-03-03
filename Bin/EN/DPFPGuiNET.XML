@@ -1,0 +1,409 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DPFPGuiNET</name>
+    </assembly>
+    <members>
+        <member name="T:DPFP.Gui.EventHandlerStatus">
+            <summary>
+            Returns codes that indicate the status of an operation.
+            </summary>
+        </member>
+        <member name="F:DPFP.Gui.EventHandlerStatus.Success">
+            <summary>
+            An operation was performed successfully
+            </summary>
+        </member>
+        <member name="F:DPFP.Gui.EventHandlerStatus.Failure">
+            <summary>
+            An operation failed
+            </summary>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EventHandler">
+            <summary>
+            Defines the fingerprint enrollment control events
+            </summary>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnDelete(System.Object,System.Int32,DPFP.Gui.EventHandlerStatus@)">
+            <summary>
+            Fires when a user commits to delete an enrolled fingerprint. The application handles the deletion of the
+            fingerprint template from a fingerprint data storage subsystem and can display its own success or error
+            messages.
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>                                
+            <param name="EventHandlerStatus">Enumeration that receives and contains one of the values from DPFP.Gui.EventHandlerStatus</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnEnroll(System.Object,System.Int32,DPFP.Template,DPFP.Gui.EventHandlerStatus@)">
+            <summary>
+            Fires when a user enrolls a fingerprint, and returns a fingerprint template. The application handles the storage
+            of the fingerprint template in a fingerprint data storage subsystem and can display its own success or error
+            messages.
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>                                
+            <param name="Template">A DPFP.Template object</param>                                
+            <param name="EventHandlerStatus">Enumeration that receives and contains one of the values from DPFP.Gui.EventHandlerStatus</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnFingerTouch(System.Object,System.String,System.Int32)">
+            <summary>
+            Fires when a user touches a fingerprint reader
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnFingerRemove(System.Object,System.String,System.Int32)">
+            <summary>
+            Fires when a user removes a finger from a fingerprint reader
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnComplete(System.Object,System.String,System.Int32)">
+            <summary>
+            Fires when a fingerprint sample is successfully captured by a fingerprint reader
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnReaderConnect(System.Object,System.String,System.Int32)">
+            <summary>
+            Fires when a fingerprint reader is attached to a system
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnReaderDisconnect(System.Object,System.String,System.Int32)">
+            <summary>
+            Fires when a fingerprint reader is disconnected from a system
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnSampleQuality(System.Object,System.String,System.Int32,DPFP.Capture.CaptureFeedback)">
+            <summary>
+            Fires when the quality of a fingerprint sample is verified
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+            <param name="CaptureFeedback">Sample quality</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnStartEnroll(System.Object,System.String,System.Int32)">
+            <summary>
+            Fires when enrollment has begun
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EventHandler.OnCancelEnroll(System.Object,System.String,System.Int32)">
+            <summary>
+            Fires when enrollment is cancelled
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">Int that contains the index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl">
+            <summary>
+            Provides a .NET control that is used for performing fingerprint enrollment operations
+            </summary>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EnrollmentControl.#ctor">
+            <summary>
+            Initializes a new instance of the EnrollmentControl class that provides a .NET control for performing
+            fingerprint enrollment operations
+            </summary>
+        </member>
+        <member name="F:DPFP.Gui.Enrollment.EnrollmentControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EnrollmentControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:DPFP.Gui.Enrollment.EnrollmentControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnDelete">
+            <summary>
+            Fires when a user commits to delete an enrolled fingerprint
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnEnroll">
+            <summary>
+            Fires when a user enrolls a fingerprint, and returns a fingerprint template
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnFingerTouch">
+            <summary>
+            Fires when a user enrolls a fingerprint, and returns a fingerprint template
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnFingerRemove">
+            <summary>
+            Fires when a user removes a finger from a fingerprint reader
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnComplete">
+            <summary>
+            Fires when a fingerprint sample is successfully captured by a fingerprint reader
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnReaderConnect">
+            <summary>
+            Fires when a fingerprint reader is attached to a system
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnReaderDisconnect">
+            <summary>
+            Fires when a fingerprint reader is disconnected from a system
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnSampleQuality">
+            <summary>
+            Fires when the quality of a fingerprint sample is verified
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnStartEnroll">
+            <summary>
+            Fires when enrollment has begun
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Enrollment.EnrollmentControl.OnCancelEnroll">
+            <summary>
+            Fires when enrollment is cancelled
+            </summary>
+        </member>
+        <member name="P:DPFP.Gui.Enrollment.EnrollmentControl.ReaderSerialNumber">
+            <summary>
+            Returns or assigns the serial number of the fingerprint reader from which a fingerprint sample is captured
+            </summary>
+        </member>
+        <member name="P:DPFP.Gui.Enrollment.EnrollmentControl.EnrolledFingerMask">
+            <summary>
+            Returns or assigns the mask representing the user’s enrolled fingerprints. The enrollment mask is a
+            combination of the values representing a user’s enrolled fingerprints.
+            </summary>
+        </member>
+        <member name="P:DPFP.Gui.Enrollment.EnrollmentControl.MaxEnrollFingerCount">
+            <summary>
+            Returns or assigns the value for the maximum number of fingerprints that can be enrolled
+            </summary>
+        </member>
+        <member name="P:DPFP.Gui.Enrollment.EnrollmentControl.EventHandler">
+            <summary>
+            Loads a fingerprint enrollment control event handler. Set this property to null to clear all registered event handlers.
+            </summary>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnDelete">
+            <summary>
+            Fires when a user commits to delete an enrolled fingerprint. The application handles the deletion of the
+            fingerprint template from a fingerprint data storage subsystem and can display its own success or error
+            messages.
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="FingerMask">ANSI index value for the enrolled fingerprint</param>                                
+            <param name="EventHandlerStatus">Enumeration that receives and contains one of the values from DPFP.Gui.EventHandlerStatus</param>                
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnEnroll">
+            <summary>
+            Fires when a user enrolls a fingerprint, and returns a fingerprint template. The application handles the storage
+            of the fingerprint template in a fingerprint data storage subsystem and can display its own success or error
+            messages.
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="FingerMask">ANSI index value for the enrolled fingerprint</param>                                
+            <param name="Template">A DPFP.Template object</param>                                
+            <param name="EventHandlerStatus">Enumeration that receives and contains one of the values from DPFP.Gui.EventHandlerStatus</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnFingerTouch">
+            <summary>
+            Fires when a user touches a fingerprint reader
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnFingerRemove">
+            <summary>
+            Fires when a user removes a finger from a fingerprint reader
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnComplete">
+            <summary>
+            Fires when a fingerprint sample is successfully captured by a fingerprint reader
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnReaderConnect">
+            <summary>
+            Fires when a fingerprint reader is connected 
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnReaderDisconnect">
+            <summary>
+            Fires when a fingerprint reader is disconnected 
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnSampleQuality">
+            <summary>
+            Fires when the quality of a fingerprint sample is verified
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+            <param name="CaptureFeedback">Captured sample quality</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnStartEnroll">
+            <summary>
+            Fires when enrollment has begun
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Enrollment.EnrollmentControl._OnCancelEnroll">
+            <summary>
+            Fires when enrollment is cancelled
+            </summary>
+            <param name="Control">A DPFP.Gui.Enrollment.EnrollmentControl object</param>
+            <param name="ReaderSerialNumber">Reader Serial Number</param>
+            <param name="Finger">ANSI index value for the enrolled fingerprint</param>
+        </member>
+        <member name="T:DPFP.Gui.Verification.EventHandler">
+            <summary>
+            Defines the fingerprint verification control events
+            </summary>
+        </member>
+        <member name="M:DPFP.Gui.Verification.EventHandler.OnComplete(System.Object,DPFP.FeatureSet,DPFP.Gui.EventHandlerStatus@)">
+            <summary>
+            Fires when a fingerprint feature set created for the purpose of verification is ready for comparison and returns
+            the fingerprint feature set. The application handles the comparison of the fingerprint feature set with a
+            fingerprint template.
+            </summary>
+            <param name="Control">A DPFP.Gui.Verification.VerificationControl object</param>
+            <param name="FeatureSet">A DPFP.FeatureSet object</param>
+            <param name="EventHandlerStatus">Eventhandler status, to be set by eventhandler if needed</param>
+        </member>
+        <member name="T:DPFP.Gui.Verification.VerificationControl">
+            <summary>
+            Provides a .NET control that is used for performing fingerprint verification operations
+            </summary>
+        </member>
+        <member name="M:DPFP.Gui.Verification.VerificationControl.#ctor">
+            <summary>
+            Initializes a new instance of the VerificationControl class that provides a .NET control for performing
+            fingerprint verification
+            </summary>
+        </member>
+        <member name="F:DPFP.Gui.Verification.VerificationControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:DPFP.Gui.Verification.VerificationControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:DPFP.Gui.Verification.VerificationControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="E:DPFP.Gui.Verification.VerificationControl.OnComplete">
+            <summary>
+            Fires when a fingerprint feature set created for the purpose of verification is ready for comparison and returns
+            the fingerprint feature set
+            </summary>
+        </member>
+        <member name="P:DPFP.Gui.Verification.VerificationControl.ReaderSerialNumber">
+            <summary>
+            Returns or assigns the serial number of the fingerprint reader from which a fingerprint sample is captured
+            </summary>
+        </member>
+        <member name="P:DPFP.Gui.Verification.VerificationControl.Active">
+            <summary>
+            Control fingerprint capture state
+            </summary>
+        </member>
+        <member name="P:DPFP.Gui.Verification.VerificationControl.EventHandler">
+            <summary>
+            Loads a fingerprint verification control event handler. Set this property to null to clear all registered event handlers
+            </summary>
+        </member>
+        <member name="T:DPFP.Gui.Verification.VerificationControl._OnComplete">
+            <summary>
+            Fires when a fingerprint feature set created for the purpose of verification is ready for comparison and returns
+            the fingerprint feature set. The application handles the comparison of the fingerprint feature set with a
+            fingerprint template.
+            </summary>
+            <param name="Control">A DPFP.Gui.Verification.VerificationControl object</param>
+            <param name="FeatureSet">A DPFP.FeatureSet object</param>
+            <param name="EventHandlerStatus">Eventhandler status, to be set by eventhandler if needed</param>                
+        </member>
+        <member name="T:DPFP.DPFPGuiResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPGuiResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPGuiResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPGuiResources.DPFPErrorMessage_BadDeleteData">
+            <summary>
+              Looks up a localized string similar to Invalid Delete Data.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPGuiResources.DPFPErrorMessage_BadEnrollmentData">
+            <summary>
+              Looks up a localized string similar to Invalid Enrollment Data.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPGuiResources.DPFPErrorMessage_BadEventHandling">
+            <summary>
+              Looks up a localized string similar to Event Handler has generated an Exception.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPGuiResources.DPFPErrorMessage_BadVerificationData">
+            <summary>
+              Looks up a localized string similar to Invalid Verification Data.
+            </summary>
+        </member>
+    </members>
+</doc>

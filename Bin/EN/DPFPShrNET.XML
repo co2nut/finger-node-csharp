@@ -1,0 +1,378 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DPFPShrNET</name>
+    </assembly>
+    <members>
+        <member name="T:DPFP.Data">
+            <summary>
+            A base class to all of the fingerprint data objects: DPFP.FeatureSet, DPFP.Sample, and DPFP.Template.
+            </summary>
+        </member>
+        <member name="F:DPFP.Data._Data">
+            <summary>
+            Array of bytes with opaque fingerprint data
+            </summary>
+        </member>
+        <member name="M:DPFP.Data.#ctor">
+            <summary>
+            Default constructor
+            </summary>        
+        </member>
+        <member name="M:DPFP.Data.#ctor(System.IO.Stream)">
+            <summary>
+            Constructs data from a given stream
+            </summary>        
+            <param name="DataStream">Data stream to deserialize</param>         
+        </member>
+        <member name="M:DPFP.Data.Serialize(System.Byte[]@)">
+            <summary>
+            Serializes a data object and returns it as an array of bytes
+            </summary>        
+            <param name="ArrayOfBytes">Array of bytes</param>         
+        </member>
+        <member name="M:DPFP.Data.Serialize(System.IO.Stream)">
+            <summary>
+            Serializes a data object to a stream
+            </summary>        
+            <param name="DataStream">Data Stream</param>         
+        </member>
+        <member name="M:DPFP.Data.DeSerialize(System.Byte[])">
+            <summary>
+            Deserializes a data object returned by the Serialize method.
+            </summary>
+            <param name="ArrayOfBytes">Array of bytes</param>         
+        </member>
+        <member name="M:DPFP.Data.DeSerialize(System.IO.Stream)">
+            <summary>
+            Deserializes a data object from a stream
+            </summary>
+            <param name="DataStream">Data Stream</param>         
+        </member>
+        <member name="P:DPFP.Data.Bytes">
+            <summary>
+            Returns embedded raw data.
+            </summary>
+        </member>
+        <member name="P:DPFP.Data.Size">
+            <summary>
+            Returns embedded raw data size in bytes.
+            </summary>
+        </member>
+        <member name="T:DPFP.Sample">
+            <summary>
+            Represents a fingerprint sample
+            </summary>
+        </member>
+        <member name="M:DPFP.Sample.#ctor">
+            <summary>
+            Default constructor
+            </summary>        
+        </member>
+        <member name="M:DPFP.Sample.#ctor(System.IO.Stream)">
+            <summary>
+            Constructs sample from a given stream. 
+            </summary>        
+            <param name="DataStream">Data stream to deserialize</param>         
+        </member>
+        <member name="T:DPFP.FeatureSet">
+            <summary>
+            Represents a fingerprint feature set
+            </summary>
+        </member>
+        <member name="M:DPFP.FeatureSet.#ctor">
+            <summary>
+            Default constructor
+            </summary>        
+        </member>
+        <member name="M:DPFP.FeatureSet.#ctor(System.IO.Stream)">
+            <summary>
+            Constructs featureset from a given stream 
+            </summary>        
+            <param name="DataStream">Data stream to deserialize</param>         
+        </member>
+        <member name="T:DPFP.Template">
+            <summary>
+            Represents a fingerprint template
+            </summary>
+        </member>
+        <member name="M:DPFP.Template.#ctor">
+            <summary>
+            Default constructor
+            </summary>        
+        </member>
+        <member name="M:DPFP.Template.#ctor(System.IO.Stream)">
+            <summary>
+            Constructs template from a given stream. 
+            </summary>        
+            <param name="DataStream">Data stream to deserialize</param>         
+        </member>
+        <member name="T:DPFP.Error.ErrorCodes">
+            <summary>
+            Error codes for SDK Exception
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.Success">
+            <summary>
+            Operation completed successfully 
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.NotInitialized">
+            <summary>
+            Some Engine components are missing or inaccessible
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.InvalidParameter">
+            <summary>
+            One or more parameters are not valid
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.NotImplemented">
+            <summary>
+            Feature is not implmeneted
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.IO">
+            <summary>
+            A generic I/O file error occurred
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.NoMemory">
+            <summary>
+            There is not enough memory to perform the action
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.Internal">
+            <summary>
+            An unknown internal error occurred
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.BadSetting">
+            <summary>
+            Initialization settings are corrupted
+            </summary>            
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.UnknownDevice">
+            <summary>
+            The requested device is not known
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.InvalidBuffer">
+            <summary>
+            A buffer is not valid
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.FeatureSetTooShort">
+            <summary>
+            The specified fingerprint feature set or fingerprint template buffer size
+            is too small
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.InvalidContext">
+            <summary>
+            The given context is not valid
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.InvalidFeatureSetType">
+            <summary>
+            The feature set purpose is not valid
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.InvalidFeatureSet">
+            <summary>
+            Decrypted fingerprint features are not valid. Decryption may have failed
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ErrorCodes.Unknown">
+            <summary>
+            An unknown exception occurred
+            </summary>
+        </member>
+        <member name="T:DPFP.Error.SDKException">
+            <summary>
+            Provides SDK-specific exceptions
+            </summary>
+        </member>
+        <member name="M:DPFP.Error.SDKException.#ctor(System.Exception,DPFP.Error.ErrorCodes,System.String)">
+            <summary>
+            Initialize with Error code and Error Message
+            </summary>
+            <param name="Exception">Internal Exception</param>
+            <param name="ErrorCode">Error Code</param>
+            <param name="ErrorMessage">Error Message</param>
+        </member>
+        <member name="P:DPFP.Error.SDKException.ErrorCode">
+            <summary>
+            Returns embedded Error Code
+            </summary>
+        </member>
+        <member name="T:DPFP.Error.ExceptionFactory">
+            <summary>
+            Generates SDK specific exceptions
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ExceptionFactory._ArgumentException">
+            <summary>
+            Exceptions ready to throw
+            </summary>
+        </member>
+        <member name="F:DPFP.Error.ExceptionFactory._mapper">
+            <summary>
+            Maps return codes to exceptions
+            </summary>
+        </member>
+        <member name="M:DPFP.Error.ExceptionFactory.EnsureInitialized">
+            <summary>
+            Constructor loads _mapper with presets
+            </summary>
+        </member>
+        <member name="M:DPFP.Error.ExceptionFactory.Throw(DPFP.Error.ErrorCodes,System.String)">
+            <summary>
+            Generates exceptions based on specified return code
+            </summary>
+            <param name="ErrorCode">Source return code</param>
+            <param name="ErrorMessage">Error Message</param>
+        </member>
+        <member name="M:DPFP.Error.ExceptionFactory.Throw(System.Exception,DPFP.Error.ErrorCodes,System.String)">
+            <summary>
+            Generates an internal application exception
+            </summary>
+            <param name="Exception">Embedded Exception</param>
+            <param name="ErrorCode">Error Code</param>
+            <param name="ErrorMessage">Error Message</param>
+        </member>
+        <member name="M:DPFP.Error.ExceptionFactory.Throw(System.Exception,System.String)">
+            <summary>
+            Generates an internal application exception
+            </summary>
+            <param name="Exception">Embedded Exception</param>
+            <param name="ErrorMessage">Error Message</param>
+        </member>
+        <member name="T:DPFP.Capture.CaptureFeedback">
+            <summary>
+            Capture Feedback
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.Good">
+            <summary>
+            The fingerprint sample is of decent quality
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.None">
+            <summary>
+            The fingerprint sample is missing, or was not received
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooLight">
+            <summary>
+            The fingerprint sample is too light
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooDark">
+            <summary>
+            The fingerprint sample is too dark
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooNoisy">
+            <summary>
+            The fingerprint sample is too noisy
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.LowContrast">
+            <summary>
+            The fingerprint sample contrast is too low
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.NotEnoughFeatures">
+            <summary>
+            The fingerprint sample does not contain enough information
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.NoCentralRegion">
+            <summary>
+            The fingerprint sample is not centered
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.NoFinger">
+            <summary>
+            The scanned object is not a finger
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooHigh">
+            <summary>
+            The finger was too high on the swipe sensor
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooLow">
+            <summary>
+            The finger was too low on the swipe sensor
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooLeft">
+            <summary>
+            The finger was too close to the left border of the swipe sensor
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooRight">
+            <summary>
+            The finger was too close to the right border of the swipe sensor
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooStrange">
+            <summary>
+            The scan looks strange
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooFast">
+            <summary>
+            The finger was swiped too quickly
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooSkewed">
+            <summary>
+            The fingerprint sample is too skewed
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooShort">
+            <summary>
+            The fingerprint sample is too short
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooSlow">
+            <summary>
+            The finger was swiped too slowly
+            </summary>
+        </member>
+        <member name="F:DPFP.Capture.CaptureFeedback.TooSmall">
+            <summary>
+            The size of the fingerprint sample is too small
+            </summary>
+        </member>
+        <member name="T:DPFP.DPFPSharedResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPSharedResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPSharedResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPSharedResources.DPFPErrorMessage_BadDeSerialization">
+            <summary>
+              Looks up a localized string similar to Bad DeSerialization.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPSharedResources.DPFPErrorMessage_BadSerialization">
+            <summary>
+              Looks up a localized string similar to Bad Serialization.
+            </summary>
+        </member>
+    </members>
+</doc>

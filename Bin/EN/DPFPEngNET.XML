@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DPFPEngNET</name>
+    </assembly>
+    <members>
+        <member name="T:DPFP.Processing.DataPurpose">
+            <summary>
+            Defines the purpose for which a fingerprint feature set is to be used
+            </summary>
+        </member>
+        <member name="F:DPFP.Processing.DataPurpose.Unknown">
+            <summary>
+            The purpose is not known
+            </summary>
+        </member>
+        <member name="F:DPFP.Processing.DataPurpose.Verification">
+            <summary>
+            A fingerprint feature set to be used for the purpose of verification
+            </summary>
+        </member>
+        <member name="F:DPFP.Processing.DataPurpose.Enrollment">
+            <summary>
+            A fingerprint feature set to be used for the purpose of enrollment
+            </summary>
+        </member>
+        <member name="T:DPFP.Processing.FeatureExtraction">
+            <summary>
+            Performs fingerprint feature extraction. The members of the FeatureExtraction class create a fingerprint
+            feature set for the purpose of enrollment or verification by applying fingerprint feature extraction to a
+            fingerprint sample.
+            </summary>
+        </member>
+        <member name="M:DPFP.Processing.FeatureExtraction.#ctor">
+            <summary>
+            Initializes a new instance of the FeatureExtraction class for creating fingerprint feature sets
+            </summary>
+        </member>
+        <member name="M:DPFP.Processing.FeatureExtraction.Finalize">
+            <summary>
+            Terminates FeatureExtraction
+            </summary>
+        </member>
+        <member name="M:DPFP.Processing.FeatureExtraction.CreateFeatureSet(DPFP.Sample,DPFP.Processing.DataPurpose,DPFP.Capture.CaptureFeedback@,DPFP.FeatureSet@)">
+            <summary>
+            Applies fingerprint feature extraction to a fingerprint sample and then creates a fingerprint feature set for the specified purpose.
+            </summary>
+            <param name="Sample">A DPFP.Sample object</param>
+            <param name="Purpose">Enumeration that contains one of the values from DPFP.Processing.DataPurpose</param>
+            <param name="CaptureFeedback">Enumeration that receives and contains one of the values from DPFP.Capture.CaptureFeedback</param>
+            <param name="FeatureSet">A DPFP.FeatureSet object</param>
+        </member>
+        <member name="T:DPFP.Processing.Enrollment">
+            <summary>
+            Performs the system function of fingerprint enrollment. The members of the Enrollment class create a
+            fingerprint template from a specified number of fingerprint feature sets that were created for the purpose of
+            enrollment.
+            </summary>
+        </member>
+        <member name="M:DPFP.Processing.Enrollment.#ctor">
+            <summary>
+            Initializes a new instance of the Enrollment class for performing the system function of fingerprint enrollment
+            </summary>
+        </member>
+        <member name="M:DPFP.Processing.Enrollment.Finalize">
+            <summary>
+            Terminates Enrollment
+            </summary>
+        </member>
+        <member name="M:DPFP.Processing.Enrollment.Clear">
+            <summary>
+            Clears a fingerprint template and sets the value of the TemplateStatus property to Unknown so an
+            application can begin another fingerprint template creation operation.
+            </summary>
+        </member>
+        <member name="M:DPFP.Processing.Enrollment.AddFeatures(DPFP.FeatureSet)">
+            <summary>
+            Adds fingerprint feature sets, one-by-one, to a fingerprint template. The fingerprint template is complete when
+            the TemplateStatus property is set to the value Ready
+            </summary>
+            <param name="FeatureSet">A DPFP.FeatureSet object</param>
+        </member>
+        <member name="P:DPFP.Processing.Enrollment.FeaturesNeeded">
+            <summary>
+            Returns the number of fingerprint feature sets still needed to create a fingerprint template. When the value of
+            FeaturesNeeded is equal to 0, the fingerprint template is created
+            </summary>
+        </member>
+        <member name="P:DPFP.Processing.Enrollment.Template">
+            <summary>
+            Returns a DPFP.Template object created during a fingerprint enrollment operation
+            </summary>
+        </member>
+        <member name="P:DPFP.Processing.Enrollment.TemplateStatus">
+            <summary>
+            Returns a value that specifies the status of a fingerprint template creation operation
+            </summary>
+        </member>
+        <member name="T:DPFP.Processing.Enrollment.Status">
+            <summary>
+            Defines the status of a fingerprint template creation operation
+            </summary>
+        </member>
+        <member name="F:DPFP.Processing.Enrollment.Status.Unknown">
+            <summary>
+            The status of a template creation operation is not know, probably because a
+            fingerprint template does not exist yet
+            </summary>
+        </member>
+        <member name="F:DPFP.Processing.Enrollment.Status.Insufficient">
+            <summary>
+            A fingerprint template exists, but more fingerprint feature sets are required to complete it
+            </summary>
+        </member>
+        <member name="F:DPFP.Processing.Enrollment.Status.Failed">
+            <summary>
+            A fingerprint template creation operation failed
+            </summary>
+        </member>
+        <member name="F:DPFP.Processing.Enrollment.Status.Ready">
+            <summary>
+            A fingerprint template was created and is ready for use
+            </summary>
+        </member>
+        <member name="T:DPFP.DPFPProcessingResources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.DPFPErrorMessage_BadFeatureSetPurpose">
+            <summary>
+              Looks up a localized string similar to Invalid FeatureSet purpose.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.DPFPErrorMessage_FailedContext">
+            <summary>
+              Looks up a localized string similar to Failed to create context.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.DPFPErrorMessage_FailedEnrollment">
+            <summary>
+              Looks up a localized string similar to Enrollment procedure failed.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.DPFPErrorMessage_FailedFeatureExtraction">
+            <summary>
+              Looks up a localized string similar to FeatureSet extraction failed.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.DPFPErrorMessage_FailedInit">
+            <summary>
+              Looks up a localized string similar to Failed to initialize low level API.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.DPFPErrorMessage_IncompleteEnrollment">
+            <summary>
+              Looks up a localized string similar to Incomplete Enrollment.
+            </summary>
+        </member>
+        <member name="P:DPFP.DPFPProcessingResources.DPFPErrorMessage_InvalidFeatureSetSize">
+            <summary>
+              Looks up a localized string similar to FeatureSet size does not match Enrollment criteria.
+            </summary>
+        </member>
+    </members>
+</doc>
