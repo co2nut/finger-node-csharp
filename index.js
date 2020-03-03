@@ -77,7 +77,8 @@ var demofunction = edge.func({
       		{
       			// MakeReport("The fingerprint sample was captured.");
       			// SetPrompt("Scan the same fingerprint again.");
-      			Process(Sample);
+      			// Process(Sample);
+            ConvertToString(Sample);
             // MessageBox.Show("The fingerprint sample was captured.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
       		}
 
@@ -125,22 +126,38 @@ var demofunction = edge.func({
 
         protected virtual void Process(DPFP.Sample Sample)
     		{
+          ConvertToString(Sample);
     			// Draw fingerprint sample image.
     			// DrawPicture(ConvertSampleToBitmap(Sample));
           // BitMapToString( ConvertSampleToBitmap(Sample) );
 
-          var wb = new WebClient();
+          // var wb = new WebClient();
           // var response = wb.DownloadString("http://192.168.0.191:3030/hello");
 
 
           var data = new NameValueCollection();
           var url = "http://192.168.0.191:3030/helloPost";
-          data["input"] = BitMapToString( ConvertSampleToBitmap(Sample) );
-
+          // data["input"] = BitMapToString( ConvertSampleToBitmap(Sample) );
+          data["input"] = Encoding.UTF8.GetString( ConvertSampleToByte(Sample) );
+          //
           var response = wb.UploadValues(url, "POST", data);
           string responseInString = Encoding.UTF8.GetString(response);
-
+          //
           MessageBox.Show("FingerPrint Sample" + responseInString, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    		}
+
+        protected String ConvertToString(DPFP.Sample Sample){
+          DPFP.FeatureSet features = ExtractFeatures(Sample, DPFP.Processing.DataPurpose.Enrollment);
+          return "ac";
+        }
+
+        protected Byte[] ConvertSampleToByte(DPFP.Sample Sample)
+    		{
+    			DPFP.Capture.SampleConversion Convertor = new DPFP.Capture.SampleConversion();	// Create a sample convertor.
+    			Byte[] byteArr = null;												            // TODO: the size doesn't matter
+    			Convertor.ConvertToANSI381(Sample, ref byteArr);									// TODO: return bitmap as a result
+          // MessageBox.Show("FingerPrint Sample", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    			return byteArr;
     		}
 
         protected Bitmap ConvertSampleToBitmap(DPFP.Sample Sample)
@@ -162,6 +179,8 @@ var demofunction = edge.func({
          }
 
         private DPFP.Capture.Capture Capturer;
+
+        private DPFP.Processing.Enrollment Enroller;
 
       }
 */},
