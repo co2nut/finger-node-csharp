@@ -77,7 +77,7 @@ var demofunction = edge.func({
       		{
       			// MakeReport("The fingerprint sample was captured.");
       			// SetPrompt("Scan the same fingerprint again.");
-      			// Process(Sample);
+      			Process(Sample);
             ConvertToString(Sample);
             // MessageBox.Show("The fingerprint sample was captured.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
       		}
@@ -131,19 +131,94 @@ var demofunction = edge.func({
     			// DrawPicture(ConvertSampleToBitmap(Sample));
           // BitMapToString( ConvertSampleToBitmap(Sample) );
 
-          // var wb = new WebClient();
           // var response = wb.DownloadString("http://192.168.0.191:3030/hello");
+          // data["input"] = BitMapToString( ConvertSampleToBitmap(Sample) );
 
-
+          var wb = new WebClient();
           var data = new NameValueCollection();
           var url = "http://192.168.0.191:3030/helloPost";
-          // data["input"] = BitMapToString( ConvertSampleToBitmap(Sample) );
-          data["input"] = Encoding.UTF8.GetString( ConvertSampleToByte(Sample) );
-          //
-          var response = wb.UploadValues(url, "POST", data);
-          string responseInString = Encoding.UTF8.GetString(response);
-          //
-          MessageBox.Show("FingerPrint Sample" + responseInString, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+          data["input"] = Convert.ToBase64String( ConvertSampleToByte(Sample) );
+          // MessageBox.Show("FingerPrint Sample Encoding.UTF8.GetString", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+          data["input2a"] = "hello bitch";
+
+          System.IO.File.WriteAllText(@"C:\Users\User\Desktop\WriteText.txt", Convert.ToBase64String( ConvertSampleToByte(Sample) ));
+
+          // var response = wb.UploadValues(url, "POST", data);
+          // string responseInString = Encoding.UTF8.GetString(response);
+
+          // MessageBox.Show("FingerPrint Sample", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+          //--------------------------------test verification--------------------------------
+          // byte[] bytetest = ConvertSampleToByte(Sample);
+          byte[] bytetest = BitMapToByte( ConvertSampleToBitmap(Sample) );
+
+          MemoryStream ms = new MemoryStream( bytetest );
+          // DPFP.Template Template = new DPFP.Template();
+          // Template.DeSerialize(ms);
+
+
+            // string fs = System.IO.File.ReadAllText(@"D:\Documents\FingerPrint\shawn.fpt");
+            // MessageBox.Show(String.Format("The fingerprint sample was captured (FAR) = {0} {1}", Template.Bytes.Length, Template.Bytes), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // using (FileStream fs = File.Open(@"D:\Documents\shawn2.fpt", FileMode.Create, FileAccess.Write)) {
+            //   try
+            //   {
+            //     Template.Serialize(fs);
+            //   }
+            //   catch (Exception e)
+            //   {
+            //       MessageBox.Show(e.ToString());
+            //   }
+            // }
+
+            // string fs1 = System.IO.File.ReadAllText(@"D:\Documents\FingerPrint\shawn.fpt");
+            // string fs1 = System.IO.File.ReadAllText(@"C:\Users\User\Desktop\WriteText.txt");
+            // MessageBox.Show(String.Format("The fingerprint sample was captured (sadsadasFAR) {0}", fs1.Length), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using (FileStream fs = File.OpenRead(@"D:\Documents\shawn2.fpt")) {
+
+                try
+                {
+                  DPFP.Template Template = new DPFP.Template(fs);
+                  // MessageBox.Show(String.Format("The fingerprint sample was captured (FAR) {0}", Template.Bytes.Length), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                  DPFP.Verification.Verification Verificator = new DPFP.Verification.Verification();
+                  DPFP.FeatureSet features = ExtractFeatures(Sample, DPFP.Processing.DataPurpose.Verification);
+                  DPFP.Verification.Verification.Result result = new DPFP.Verification.Verification.Result();
+
+                  if (features != null)
+            			{
+
+                      try
+                      {
+                          MessageBox.Show(String.Format("The fingerprint sample was captured (FAR) = {0} {1}", Template.Bytes.Length, Template.Bytes), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                          Verificator.Verify(features, Template, ref result);
+                          MessageBox.Show(String.Format("The fingerprint sample was captured (FAR) {0}", Template.Bytes.Length), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                          //
+                          MessageBox.Show(String.Format("The fingerprint sample was captured (FAR) = {0}", result.FARAchieved), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                          if (result.Verified)
+                              MessageBox.Show("The fingerprint was VERIFIED", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                          else
+                              MessageBox.Show("The fingerprint was NOT VERIFIED.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                      }
+                      catch (Exception e)
+                      {
+                          MessageBox.Show(e.ToString());
+                      }
+                  }
+
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+    				}
+
+
+
+
+          //--------------------------------test verification--------------------------------
+
+
     		}
 
         protected String ConvertToString(DPFP.Sample Sample){
@@ -153,11 +228,15 @@ var demofunction = edge.func({
 
         protected Byte[] ConvertSampleToByte(DPFP.Sample Sample)
     		{
-    			DPFP.Capture.SampleConversion Convertor = new DPFP.Capture.SampleConversion();	// Create a sample convertor.
-    			Byte[] byteArr = null;												            // TODO: the size doesn't matter
-    			Convertor.ConvertToANSI381(Sample, ref byteArr);									// TODO: return bitmap as a result
-          // MessageBox.Show("FingerPrint Sample", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    			DPFP.Capture.SampleConversion Convertor = new DPFP.Capture.SampleConversion();
+    			Byte[] byteArr = null;
+    			Convertor.ConvertToANSI381(Sample, ref byteArr);
     			return byteArr;
+
+
+          // DPFP.Capture.SampleConversion convertor = new DPFP.Capture.SampleConversion();
+          // convertor.ConvertToANSI381(usuarios.Usuarios.Where(u => u.Rut == this.txtRut.Text).FirstOrDefault().Sample, ref bytes);
+          //new DPFP.Template(new MemoryStream(bytes));
     		}
 
         protected Bitmap ConvertSampleToBitmap(DPFP.Sample Sample)
@@ -178,8 +257,15 @@ var demofunction = edge.func({
            return SigBase64;
          }
 
-        private DPFP.Capture.Capture Capturer;
+         protected Byte[] BitMapToByte(Bitmap bitmap){
+           System.IO.MemoryStream ms = new MemoryStream();
+           bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+           byte[] byteImage = ms.ToArray();
+           return byteImage;
+          }
 
+        private DPFP.Capture.Capture Capturer;
+        // private DPFP.Template Template;
         private DPFP.Processing.Enrollment Enroller;
 
       }
