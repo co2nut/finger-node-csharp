@@ -19,21 +19,15 @@ var demofunction = edge.func({
       using DPFP.Capture;
 
       public class Startup : DPFP.Capture.EventHandler{
-        delegate void Function();	// a simple delegate for marshalling calls from event handlers to the GUI thread
-
-        //test---------------------------
-        static TaskCompletionSource<object> tcs;
-
-        public async Task<object> Invoke(object input)
+        public static String USERNAME = "";
+        public async Task<object> Invoke(dynamic input)
         {
+            USERNAME = input.username;
             return await Task.Run<object>(async () => {
-        			// we are on CLR thread pool thread here
-        			// simulate long running operation
                Init();
                Start();
-               // await Task.Delay(50000);
 
-        			return ".NET welcomes " + input.ToString();
+      			   return ".NET welcomes " + input.ToString();
         		});
         }
 
@@ -125,7 +119,7 @@ var demofunction = edge.func({
                   }
       						break;
                 case DPFP.Processing.Enrollment.Status.Insufficient:	// report success and stop capturing
-                  MessageBox.Show("Please continue", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                  MessageBox.Show("Please continue rescan " + USERNAME, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
       						break;
       				}
       			}
@@ -170,7 +164,9 @@ references: [
  ]
 });
 
-demofunction({}, function (err, result) {
+demofunction({
+  username:'michael',
+}, function (err, result) {
   if (err) {
     throw err;
   }
