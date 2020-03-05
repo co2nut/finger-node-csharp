@@ -1,5 +1,8 @@
 // var edge = require('edge-js');
-var edge = require('edge-js'), http = require('http');
+var edge = require('edge-js')
+var axios = require('axios')
+var fs = require('fs')
+var FormData = require('form-data');
 
 var demofunction = edge.func({
   source:function() {/*
@@ -27,7 +30,7 @@ var demofunction = edge.func({
                Init();
                Start();
 
-      			   return ".NET welcomes " + input.ToString();
+      			   return "Enrollment Process Complete " + input.ToString();
         		});
         }
 
@@ -81,7 +84,7 @@ var demofunction = edge.func({
 
       		public void OnFingerTouch(object Capture, string ReaderSerialNumber)
       		{
-            MessageBox.Show("The fingerprint reader was touched.!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // MessageBox.Show("The fingerprint reader was touched.!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
       		}
 
       		public void OnReaderConnect(object Capture, string ReaderSerialNumber)
@@ -113,13 +116,15 @@ var demofunction = edge.func({
       				switch(Enroller.TemplateStatus)
       				{
       					case DPFP.Processing.Enrollment.Status.Ready:	// report success and stop capturing
-                  MessageBox.Show("FingerPrint Capture Complete", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                  using (FileStream fs = File.Open("scans\\a2.fpt", FileMode.Create, FileAccess.Write)) {
+                  MessageBox.Show( FingerPrint Capture Complete " + USERNAME, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
+                  String fileName = "scans\\"+ USERNAME +".fpt";
+                  using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write)) {
                     Enroller.Template.Serialize(fs);
                   }
+
       						break;
                 case DPFP.Processing.Enrollment.Status.Insufficient:	// report success and stop capturing
-                  MessageBox.Show("Please continue rescan " + USERNAME, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                  MessageBox.Show( "Please continue rescan " + USERNAME, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
       						break;
       				}
       			}
@@ -164,15 +169,28 @@ references: [
  ]
 });
 
+var username = "abccc"
 demofunction({
-  username:'michael',
+  username,
 }, function (err, result) {
   if (err) {
     throw err;
   }
   console.log(result);
-});
 
-// var controller = createController(null, true);
-// controller.yieldControl();
-// console.log('Control over process lifetime yielded to CLR, the process will not exit...');
+  // // upload files
+  var newFile = fs.createReadStream("scans\\"+ username +".fpt");
+  var url = "http://192.168.0.101:3030/upload-FingerPrint"
+  var form = new FormData();
+
+  form.append("file", newFile)
+  form.append("name", username)
+  axios.post(url,
+    form,
+    { headers: {...form.getHeaders()} }
+  )
+  .catch((err)=>{
+    console.log({err})
+  })
+
+});
