@@ -21,6 +21,7 @@ var demofunction = edge.func({
       public class Startup : DPFP.Capture.EventHandler{
 
         delegate void Function();	// a simple delegate for marshalling calls from event handlers to the GUI thread
+        public static String verifyStatus = "";
 
         static TaskCompletionSource<object> tcs;
         public async Task<object> Invoke(object input)
@@ -28,7 +29,7 @@ var demofunction = edge.func({
             return await Task.Run<object>(async () => {
                Init();
                Start();
-        			 return "Verification Complete" + input.ToString();
+        			 return "Verification Complete with " + verifyStatus;
         		});
         }
 
@@ -137,6 +138,7 @@ var demofunction = edge.func({
                               Verificator.Verify(features, Template, ref result);
                               if (result.Verified)
                               {
+                                verifyStatus = "SUCCESS";
                                 MessageBox.Show( "The fingerprint was VERIFIED", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
                                 break;
                                 // AutoClosingMessageBox.Show("The fingerprint was VERIFIED", "Verification Status", 1000);
