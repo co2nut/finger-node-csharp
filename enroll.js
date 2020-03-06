@@ -27,8 +27,8 @@ var demofunction = edge.func({
         {
             USERNAME = input.username;
             return await Task.Run<object>(async () => {
-               Init();
-               Start();
+               // Init();
+               // Start();
 
       			   return "Enrollment Process Complete " + input.ToString();
         		});
@@ -116,7 +116,7 @@ var demofunction = edge.func({
       				switch(Enroller.TemplateStatus)
       				{
       					case DPFP.Processing.Enrollment.Status.Ready:	// report success and stop capturing
-                  MessageBox.Show( FingerPrint Capture Complete " + USERNAME, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
+                  MessageBox.Show( "FingerPrint Capture Complete " + USERNAME, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
                   String fileName = "scans\\"+ USERNAME +".fpt";
                   using (FileStream fs = File.Open(fileName, FileMode.Create, FileAccess.Write)) {
                     Enroller.Template.Serialize(fs);
@@ -179,18 +179,18 @@ demofunction({
   console.log(result);
 
   // // upload files
-  var newFile = fs.createReadStream("scans\\"+ username +".fpt");
-  var url = "http://192.168.0.101:3030/upload-FingerPrint"
-  var form = new FormData();
-
-  form.append("file", newFile)
-  form.append("name", username)
-  axios.post(url,
-    form,
-    { headers: {...form.getHeaders()} }
-  )
-  .catch((err)=>{
-    console.log({err})
-  })
+  // var newFile = fs.createReadStream("scans\\"+ username +".fpt");
+  // var url = "http://192.168.0.101:3030/upload-FingerPrint"
+  // var form = new FormData();
+  //
+  // form.append("file", newFile)
+  // form.append("name", username)
+  // axios.post(url,
+  //   form,
+  //   { headers: {...form.getHeaders()} }
+  // )
+  // .catch((err)=>{
+  //   console.log({err})
+  // })
 
 });
