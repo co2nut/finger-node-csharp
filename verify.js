@@ -21,7 +21,7 @@ var demofunction = edge.func({
       public class Startup : DPFP.Capture.EventHandler{
 
         delegate void Function();	// a simple delegate for marshalling calls from event handlers to the GUI thread
-        public static String verifyStatus = "";
+        public static String verifyStatus = "FAIL";
 
         static TaskCompletionSource<object> tcs;
         public async Task<object> Invoke(object input)
@@ -29,7 +29,7 @@ var demofunction = edge.func({
             return await Task.Run<object>(async () => {
                Init();
                Start();
-        			 return "Verification Complete with " + verifyStatus;
+        			 return verifyStatus;
         		});
         }
 
@@ -126,40 +126,39 @@ var demofunction = edge.func({
                 using (FileStream fs = File.OpenRead(path)) {
                     try
                     {
-                      DPFP.Template Template = new DPFP.Template(fs);
-                      DPFP.Verification.Verification Verificator = new DPFP.Verification.Verification();
-                      DPFP.FeatureSet features = ExtractFeatures(Sample, DPFP.Processing.DataPurpose.Verification);
-                      DPFP.Verification.Verification.Result result = new DPFP.Verification.Verification.Result();
+                        DPFP.Template Template = new DPFP.Template(fs);
+                        DPFP.Verification.Verification Verificator = new DPFP.Verification.Verification();
+                        DPFP.FeatureSet features = ExtractFeatures(Sample, DPFP.Processing.DataPurpose.Verification);
+                        DPFP.Verification.Verification.Result result = new DPFP.Verification.Verification.Result();
 
-                      if (features != null)
-                      {
-                          try
-                          {
-                              Verificator.Verify(features, Template, ref result);
-                              if (result.Verified)
-                              {
-                                verifyStatus = "SUCCESS";
-                                MessageBox.Show( "The fingerprint was VERIFIED", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
-                                break;
-                                // AutoClosingMessageBox.Show("The fingerprint was VERIFIED", "Verification Status", 1000);
-                                // System.Environment.Exit(1);
-                              }
-                              else
-                                  MessageBox.Show("The fingerprint was NOT VERIFIED.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                          }
-                          catch (Exception e)
-                          {
-                              MessageBox.Show(e.ToString());
-                          }
-                      }
+                        if (features != null)
+                        {
+                            try
+                            {
+                                Verificator.Verify(features, Template, ref result);
+                                if (result.Verified)
+                                {
+                                    verifyStatus = "SUCCESS";
+                                    MessageBox.Show( "The fingerprint was VERIFIED", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
+                                    verifyStatus = "SUCCESS";
+                                    break;
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                MessageBox.Show(e.ToString());
+                            }
+                        }
                     }
                     catch (Exception e)
                     {
                         MessageBox.Show(e.ToString());
                     }
-                }
-          }
-		    }
+                  }//FileStream
+            }//end of foreach
+            if(verifyStatus == "FAIL")
+              MessageBox.Show("The fingerprint was NOT VERIFIED.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
+        }
 
         protected DPFP.FeatureSet ExtractFeatures(DPFP.Sample Sample, DPFP.Processing.DataPurpose Purpose)
     		{
