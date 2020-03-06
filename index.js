@@ -23,19 +23,48 @@ var demofunction = edge.func({
 
       public class Startup : DPFP.Capture.EventHandler{
         public static String USERNAME = "";
+        public static String verifyStatus = "FAIL";
+        public static String actionName = "";
         public async Task<object> Invoke(dynamic input)
         {
             USERNAME = input.username;
             return await Task.Run<object>(async () => {
-               // Init();
-               // Start();
+               Init();
+               Start();
+               actionName = input.actionName;
 
-      			   return "Enrollment Process Complete " + input.ToString();
+                if(actionName == "verify")
+                {
+                  return verifyStatus;
+                }
+                else
+                {
+                  return "Enrollment Process Complete " + input.ToString();
+                }
+
         		});
         }
 
 
         protected virtual void Init()
+    		{
+            try
+            {
+                Capturer = new DPFP.Capture.Capture();
+
+                if ( null != Capturer )
+                    Capturer.EventHandler = this;
+                else
+                    MessageBox.Show("Can't initiate capture operation!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch
+            {
+                MessageBox.Show("Can't initiate capture operation!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+    		}
+
+        protected virtual void InitEnroll()
     		{
             try
             {
@@ -74,18 +103,23 @@ var demofunction = edge.func({
 
       		public void OnComplete(object Capture, string ReaderSerialNumber, DPFP.Sample Sample)
       		{
-      			Process(Sample);
-            //sample web call - begin
-            string URI = "http://192.168.0.101:3030/staffCheckIn";
-            string myParameters = "username=chiewfei&action=punchin";
-
-            using (WebClient wc = new WebClient())
+            if(actionName == "verify")
             {
-                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                string HtmlResult = wc.UploadString(URI, myParameters);
-            }
-           //sample web call = end
+              ProcessVerify(Sample);
+              //sample web call - begin
+              string URI = "http://192.168.0.101:3030/staffCheckIn";
+              string myParameters = "username=chiewfei&action=punchin";
 
+              using (WebClient wc = new WebClient())
+              {
+                  wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
+                  string HtmlResult = wc.UploadString(URI, myParameters);
+              }
+             //sample web call = end
+            }
+            else{
+              ProcessEnroll(Sample);
+            }
       		}
 
       		public void OnFingerGone(object Capture, string ReaderSerialNumber)
@@ -114,7 +148,7 @@ var demofunction = edge.func({
       		}
       	#endregion
 
-        protected virtual void Process(DPFP.Sample Sample)
+        protected virtual void ProcessEnroll(DPFP.Sample Sample)
     		{
           try
           {
@@ -145,6 +179,51 @@ var demofunction = edge.func({
               MessageBox.Show(e.ToString());
           }
     		}
+
+
+        protected virtual void ProcessVerify(DPFP.Sample Sample)
+    		{
+          string[] filePaths = Directory.GetFiles(System.IO.Directory.GetCurrentDirectory() + "\\scans", "*.fpt");
+
+          foreach (string path in filePaths)
+          {
+              //start verification
+                using (FileStream fs = File.OpenRead(path)) {
+                    try
+                    {
+                        DPFP.Template Template = new DPFP.Template(fs);
+                        DPFP.Verification.Verification Verificator = new DPFP.Verification.Verification();
+                        DPFP.FeatureSet features = ExtractFeatures(Sample, DPFP.Processing.DataPurpose.Verification);
+                        DPFP.Verification.Verification.Result result = new DPFP.Verification.Verification.Result();
+
+                        if (features != null)
+                        {
+                            try
+                            {
+                                Verificator.Verify(features, Template, ref result);
+                                if (result.Verified)
+                                {
+                                    verifyStatus = "SUCCESS";
+                                    MessageBox.Show( "The fingerprint was VERIFIED", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
+                                    verifyStatus = "SUCCESS";
+                                    break;
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                MessageBox.Show(e.ToString());
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
+                    }
+                  }//FileStream
+            }//end of foreach
+            if(verifyStatus == "FAIL")
+              MessageBox.Show("The fingerprint was NOT VERIFIED.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2, MessageBoxOptions.ServiceNotification);
+        }
 
     		protected DPFP.FeatureSet ExtractFeatures(DPFP.Sample Sample, DPFP.Processing.DataPurpose Purpose)
     		{
@@ -184,6 +263,7 @@ references: [
 var username = "abccc"
 demofunction({
   username,
+  actionName:"verify"
 }, function (err, result) {
   if (err) {
     throw err;
